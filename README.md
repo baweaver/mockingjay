@@ -14,20 +14,16 @@ Takes a JSON string and turns it into a ruby hash by calling Generator hooks in 
 
 ```ruby
 {
-  "a": {
-    "Generator.fixnum":"(1..100)"
-  },
+  "a": { "Generator.fixnum":"(1..100)" },
   "b": {
     "c": [
-      {"Generator.fixnum":"(1..100)"},
-      {"Generator.fixnum":"(1..100)"},
-      {"Generator.fixnum":"(1..100)"}
+      { "Generator.fixnum":"(1..100)" },
+      { "Generator.fixnum":"(1..100)" },
+      { "Generator.fixnum":"(1..100)" }
       ],
-    "d": {
-      "Generator.string":"Lorem.word"
-    },
+    "d": { "Generator.string":"Lorem.word" },
     "e": {
-      "f": {"Generator.float":"(1..100)"}
+      "f": { "Generator.float":"(1..100)" }
     }
   }
 }
@@ -49,20 +45,16 @@ Mockingjay::Serialize.new({a: 1, b: {c: [1,2,3], d: 'foo!', e: { f: 1.0 } } } )
 
 ```ruby
 {
-  "a": {
-    "Generator.fixnum":"(1..100)"
-  },
+  "a": { "Generator.fixnum":"(1..100)" },
   "b": {
     "c": [
-      {"Generator.fixnum":"(1..100)"},
-      {"Generator.fixnum":"(1..100)"},
-      {"Generator.fixnum":"(1..100)"}
+      { "Generator.fixnum":"(1..100)" },
+      { "Generator.fixnum":"(1..100)" },
+      { "Generator.fixnum":"(1..100)" }
       ],
-    "d": {
-      "Generator.string":"Lorem.word"
-    },
+    "d": { "Generator.string":"Lorem.word" },
     "e": {
-      "f": {"Generator.float":"(1..100)"}
+      "f": { "Generator.float":"(1..100)" }
     }
   }
 }
