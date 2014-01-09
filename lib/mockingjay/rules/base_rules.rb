@@ -1,4 +1,6 @@
 module Mockingjay
+
+  # These define basic rules for converting a deserialized value down to a generator
   module Rules
     class << self
       def fixnum

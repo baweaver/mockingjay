@@ -2,10 +2,12 @@ module Mockingjay
   class Serialize
     attr_reader :json
 
+    # Parses raw data to JSON
     def initialize(raw_data)
       @json = reduce_hash(raw_data.is_a?(Hash) ? raw_data : JSON.parse(raw_data)).to_json
     end
 
+    # A bit of sugar for quicker saves
     def save_as(name)
       File.open("#{name}.json", 'w') { |file| file.write @json }
     end
@@ -28,10 +30,12 @@ module Mockingjay
       end
     end
 
+    # Finds the type of a value, and turns into a symbol to hook rules
     def value_type_of(value)
       value.class.to_s.downcase.to_sym
     end
 
+    # Finds the rule to substitute in place of a value
     def generator_for(value)
       type = value_type_of(value)
       Generator.respond_to?(type) ? Rules.send(type) : Rules.unknown(type)

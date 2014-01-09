@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Mockingjay::VERSION
   spec.authors       = ["Brandon Weaver"]
   spec.email         = ["keystonelemur@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Dynamic Fixture Creation}
+  spec.description   = %q{Let your data define your fixtures for you}
+  spec.homepage      = "https://github.com/baweaver/mockingjay"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
@@ -20,4 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.4"
   spec.add_development_dependency "rake"
+
+  spec.add_runtime_dependancy "faker"
+  spec.add_runtime_dependancy "json"
 end
