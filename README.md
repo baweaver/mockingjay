@@ -8,12 +8,30 @@ Mockingjay aims to bridge that gap for you.
 
 ## Usage
 
-### Mockingjay::Deserialize
+### Mockingjay::Serialize
 
-Takes a JSON string and turns it into a ruby hash by calling Generator hooks in the string.
+Takes in a Ruby hash and turns it into a set of default generators based on types. Default rulesets are configured in Rules to control this behavior. As most scenarios will have a json response sent directly, you can pass in either a ruby hash or JSON string.
 
 ```ruby
-{
+hash = {
+  a: 1, 
+  b: {
+    c: [1,2,3], 
+    d: 'foo!', 
+    e: { f: 1.0 } 
+  }
+}
+
+json = '{"a": 1, "b": { "c": [1,2,3], "d": 'foo!', "e": { "f": 1.0 }}}'
+
+Mockingjay::Serialize.new(hash)
+Mockingjay::Serialize.new(json)
+```
+
+...both would render the json:
+
+```ruby
+'{
   "a": { "Generator.fixnum":"(1..100)" },
   "b": {
     "c": [
@@ -26,43 +44,46 @@ Takes a JSON string and turns it into a ruby hash by calling Generator hooks in 
       "f": { "Generator.float":"(1..100)" }
     }
   }
-}
+}'
+```
+
+### Mockingjay::Deserialize
+
+Takes a Generator Template in as a JSON string and turns it into a ruby hash by calling Generator hooks in the string.
+
+```ruby
+'{
+  "a": { "Generator.fixnum":"(1..100)" },
+  "b": {
+    "c": [
+      { "Generator.fixnum":"(1..100)" },
+      { "Generator.fixnum":"(1..100)" },
+      { "Generator.fixnum":"(1..100)" }
+      ],
+    "d": { "Generator.string":"Lorem.word" },
+    "e": {
+      "f": { "Generator.float":"(1..100)" }
+    }
+  }
+}'
 ```
 
 Looks in Generators for matching rules, or returns that the generator is unknown.
 
 (TODO: Date Support)
 
-### Mockingjay::Serialize
-
-Takes in a Ruby hash and turns it into a set of default generators based on types. Default rulesets are configured in Rules to control this behavior
-
-```ruby
-Mockingjay::Serialize.new({a: 1, b: {c: [1,2,3], d: 'foo!', e: { f: 1.0 } } } )
-```
-
-...would render the hash:
-
-```ruby
-{
-  "a": { "Generator.fixnum":"(1..100)" },
-  "b": {
-    "c": [
-      { "Generator.fixnum":"(1..100)" },
-      { "Generator.fixnum":"(1..100)" },
-      { "Generator.fixnum":"(1..100)" }
-      ],
-    "d": { "Generator.string":"Lorem.word" },
-    "e": {
-      "f": { "Generator.float":"(1..100)" }
-    }
-  }
-}
-```
 
 ### Mockingjay::Generators
 
 Methods for converting generator hooks into ruby values
+
+This Generator:
+
+```ruby
+{ "Generator.fixnum":"(1..100)" }
+```
+
+Would call this method in Mockingjay::Generators:
 
 ```ruby
 def fixnum(str_range)
@@ -71,13 +92,8 @@ def fixnum(str_range)
 end
 ```
 
-When a fixnum hook is hit, such as:
+with the arg string "(1..100)"
 
-```ruby
-{"Generator.fixnum":"(1..100)"}
-```
-
-This method will be called with a string '(1..100)'
 
 (Granted I need to fix ranges on that)
 
@@ -85,14 +101,18 @@ This method will be called with a string '(1..100)'
 
 Default Rules for serializing types of data into Generators
 
+When Deserialize hits a value that is a fixnum, it looks in Mockingjay::Rules for a function with the same name:
+
 ```ruby
 def fixnum
   {'Generator.fixnum' => '(1..100)'}
 end
 ```
 
-Whenever a fixnum is encountered in a raw hash, it will be substituted with this Generator hook by default.
+...and returns the hash as the generator to insert into the JSON template being created.
 
 # Notes
 
 This was done in about a 4 hour time frame, and still has a fair amount of work to be done. It is most certainly alpha software. Be careful.
+
+See Issues for work I'm planning to do.
