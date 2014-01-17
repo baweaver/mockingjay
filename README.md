@@ -1,5 +1,7 @@
 # Mockingjay
 
+[![Code Climate](https://codeclimate.com/github/baweaver/mockingjay.png)](https://codeclimate.com/github/baweaver/mockingjay)
+
 Fixtures are a hastle to keep up to date, especially with an active development of the data that's being returned. Worst case, you can't predict when a little thing is going to change and it breaks all your fixtures!
 
 Why not let the data define fixtures for you, and generate away?
